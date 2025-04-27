@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Clicker Game!</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+        }
+        h1 {
+            font-size: 3em;
+            color: #333;
+        }
+        #score {
+            font-size: 2em;
+            margin: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .cost {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Click the Button!</h1>
+    <div id="score">Score: 0</div>
+    <button id="clickButton">Click Me!</button>
+
+    <h2>Upgrades</h2>
+
+    <button id="upgradeButton">Buy Click Upgrade (+1 per click)</button>
+    <div class="cost" id="upgradeCost">Upgrade Cost: 50 points</div>
+
+    <h2>Auto-Clickers</h2>
+
+    <button id="autoClickerWeakButton">Buy Weak Auto-Clicker (+1/sec)</button>
+    <div class="cost" id="weakCost">Cost: 100 points</div>
+
+    <button id="autoClickerMediumButton">Buy Medium Auto-Clicker (+5/sec)</button>
+    <div class="cost" id="mediumCost">Cost: 500 points</div>
+
+    <button id="autoClickerStrongButton">Buy Strong Auto-Clicker (+10/sec)</button>
+    <div class="cost" id="strongCost">Cost: 2000 points</div>
+
+    <script>
+        let score = 0;
+        let pointsPerClick = 1;
+
+        let upgradeCost = 50;
+
+        let weakClickers = 0;
+        let mediumClickers = 0;
+        let strongClickers = 0;
+
+        let weakCost = 100;
+        let mediumCost = 500;
+        let strongCost = 2000;
+
+        const scoreDisplay = document.getElementById('score');
+        const clickButton = document.getElementById('clickButton');
+        const upgradeButton = document.getElementById('upgradeButton');
+        const autoClickerWeakButton = document.getElementById('autoClickerWeakButton');
+        const autoClickerMediumButton = document.getElementById('autoClickerMediumButton');
+        const autoClickerStrongButton = document.getElementById('autoClickerStrongButton');
+
+        const upgradeCostDisplay = document.getElementById('upgradeCost');
+        const weakCostDisplay = document.getElementById('weakCost');
+        const mediumCostDisplay = document.getElementById('mediumCost');
+        const strongCostDisplay = document.getElementById('strongCost');
+
+        clickButton.addEventListener('click', () => {
+            score += pointsPerClick;
+            updateDisplay();
+        });
+
+        upgradeButton.addEventListener('click', () => {
+            if (score >= upgradeCost) {
+                score -= upgradeCost;
+                pointsPerClick++;
+                upgradeCost = Math.floor(upgradeCost * 1.5);
+                updateDisplay();
+            } else {
+                alert("Not enough points for upgrade!");
+            }
+        });
+
+        autoClickerWeakButton.addEventListener('click', () => {
+            if (score >= weakCost) {
+                score -= weakCost;
+                weakClickers++;
+                weakCost = Math.floor(weakCost * 1.7);
+                updateDisplay();
+            } else {
+                alert("Not enough points for Weak Auto-Clicker!");
+            }
+        });
+
+        autoClickerMediumButton.addEventListener('click', () => {
+            if (score >= mediumCost) {
+                score -= mediumCost;
+                mediumClickers++;
+                mediumCost = Math.floor(mediumCost * 1.8);
+                updateDisplay();
+            } else {
+                alert("Not enough points for Medium Auto-Clicker!");
+            }
+        });
+
+        autoClickerStrongButton.addEventListener('click', () => {
+            if (score >= strongCost) {
+                score -= strongCost;
+                strongClickers++;
+                strongCost = Math.floor(strongCost * 2);
+                updateDisplay();
+            } else {
+                alert("Not enough points for Strong Auto-Clicker!");
+            }
+        });
+
+        // Every second, add auto-clicker points
+        setInterval(() => {
+            let totalAutoPoints = (weakClickers * 1) + (mediumClickers * 5) + (strongClickers * 10);
+            score += totalAutoPoints;
+            updateDisplay();
+        }, 1000);
+
+        function updateDisplay() {
+            scoreDisplay.textContent = "Score: " + score;
+            upgradeCostDisplay.textContent = "Upgrade Cost: " + upgradeCost + " points";
+            weakCostDisplay.textContent = "Cost: " + weakCost + " points";
+            mediumCostDisplay.textContent = "Cost: " + mediumCost + " points";
+            strongCostDisplay.textContent = "Cost: " + strongCost + " points";
+        }
+    </script>
+
+</body>
+</html>
